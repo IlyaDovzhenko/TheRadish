@@ -1,0 +1,10 @@
+/target
+.idea/
+/cfg
+task.txt
+tester.jar
+/test
+start.sh
+start.bat
+h2db.trace.db
+h2db.mv.db
