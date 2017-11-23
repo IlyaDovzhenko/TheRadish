@@ -47,6 +47,7 @@ public class SignInServlet extends HttpServlet {
 
         response.getWriter().println("Authorized");
         response.getWriter().println(userProfile.toString());
+        response.getWriter().println(accountService.getAllUsersList());
         response.setStatus(HttpServletResponse.SC_OK);
 
 

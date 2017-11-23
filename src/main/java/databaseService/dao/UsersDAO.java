@@ -6,6 +6,8 @@ import databaseService.executor.Executor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsersDAO {
     private Executor executor;
@@ -19,6 +21,22 @@ public class UsersDAO {
             result.next();
             return new UserProfile(result.getString(1),
                                     result.getString(2));
+        });
+    }
+
+    public List<String> getAllUsers() throws SQLException {
+        return executor.execQuery("select login from users", result-> {
+            List<String> usersList = new ArrayList<>();
+            for(;;) {
+                result.next();
+                if(!result.isLast()) {
+                    usersList.add(result.getString(1));
+                } else {
+                    usersList.add(result.getString(1));
+                    break;
+                }
+            }
+            return usersList;
         });
     }
 

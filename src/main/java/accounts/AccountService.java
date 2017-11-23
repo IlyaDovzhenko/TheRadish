@@ -5,36 +5,51 @@ import databaseService.DBException;
 import databaseService.DBServiceImpl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AccountService {
-    private final Map<String, UserProfile> loginToProfile;
     private final Map<String, UserProfile> sessionIdToProfile;
     private DBService dbService;
 
     public AccountService() {
-        loginToProfile = new HashMap<>();
         sessionIdToProfile = new HashMap<>();
         dbService = new DBServiceImpl();
+        /*try {
+            dbService.cleanUp();
+            System.out.println("Clear");
+        } catch (DBException e) {
+            System.out.println("Not clear");
+        }*/
     }
 
     public void addNewUser(UserProfile userProfile) {
-        //loginToProfile.put(userProfile.getLogin(), userProfile);
         try {
             dbService.addUser(userProfile);
             System.out.println(userProfile.toString());
         } catch(DBException e) {
             e.printStackTrace();
         }
-
     }
 
     public UserProfile getUserByLogin(String login) {
-        //return loginToProfile.get(login);
         try {
             return dbService.getUser(login);
         } catch (DBException e) {
             System.out.println("User " + login + " does not exist.");
+        }
+        return null;
+    }
+
+    public List<String> getAllUsersList() {
+        List<String> list;
+        try {
+            list = dbService.getAll();
+            for(String text : list) {
+                System.out.print(text + " ");
+            }
+            return list;
+        } catch(DBException e) {
         }
         return null;
     }

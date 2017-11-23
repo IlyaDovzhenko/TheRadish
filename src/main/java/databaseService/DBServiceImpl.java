@@ -8,9 +8,13 @@ import org.h2.jdbcx.JdbcDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DBServiceImpl implements DBService {
     private final Connection connection;
+    private static final String url = "jdbc:h2:./h2db";
+    private static final String name = "root";
+    private static final String password = "root";
 
     public DBServiceImpl() {
         this.connection = getH2Connection();
@@ -19,6 +23,14 @@ public class DBServiceImpl implements DBService {
     public UserProfile getUser(String login) throws DBException {
         try {
             return (new UsersDAO(connection).get(login));
+        } catch(SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    public List<String> getAll() throws DBException {
+        try {
+            return (new UsersDAO(connection).getAllUsers());
         } catch(SQLException e) {
             throw new DBException(e);
         }
@@ -69,16 +81,11 @@ public class DBServiceImpl implements DBService {
 
     private static Connection getH2Connection() {
         try {
-            String url = "jdbc:h2:./h2db";
-            String name = "root";
-            String password = "root";
-
             JdbcDataSource ds = new JdbcDataSource();
             ds.setURL(url);
             ds.setUser(name);
             ds.setPassword(password);
 
-            //Connection conn = DriverManager.getConnection(url, name, password);
             return DriverManager.getConnection(url, name, password);
         } catch (SQLException e) {
             e.printStackTrace();
