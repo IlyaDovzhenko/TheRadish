@@ -40,7 +40,6 @@ public class DBServiceImpl implements DBService {
         try {
             connection.setAutoCommit(false);
             UsersDAO dao = new UsersDAO(connection);
-            //dao.dropTable();
             dao.createTable();
             dao.insertUser(userProfile);
             connection.commit();
