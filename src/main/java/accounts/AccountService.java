@@ -1,5 +1,6 @@
 package accounts;
 
+import base.DBService;
 import databaseService.DBException;
 import databaseService.DBServiceImpl;
 
@@ -9,18 +10,18 @@ import java.util.Map;
 public class AccountService {
     private final Map<String, UserProfile> loginToProfile;
     private final Map<String, UserProfile> sessionIdToProfile;
-    private DBServiceImpl dbServiceImpl;
+    private DBService dbService;
 
     public AccountService() {
         loginToProfile = new HashMap<>();
         sessionIdToProfile = new HashMap<>();
-        dbServiceImpl = new DBServiceImpl();
+        dbService = new DBServiceImpl();
     }
 
     public void addNewUser(UserProfile userProfile) {
         //loginToProfile.put(userProfile.getLogin(), userProfile);
         try {
-            dbServiceImpl.addUser(userProfile);
+            dbService.addUser(userProfile);
             System.out.println(userProfile.toString());
         } catch(DBException e) {
             e.printStackTrace();
@@ -31,7 +32,7 @@ public class AccountService {
     public UserProfile getUserByLogin(String login) {
         //return loginToProfile.get(login);
         try {
-            return dbServiceImpl.getUser(login);
+            return dbService.getUser(login);
         } catch (DBException e) {
             System.out.println("User " + login + " does not exist.");
         }
