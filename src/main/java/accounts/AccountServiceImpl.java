@@ -1,5 +1,6 @@
 package accounts;
 
+import base.AccountService;
 import base.DBService;
 import databaseService.DBException;
 import databaseService.DBServiceImpl;
@@ -8,11 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AccountService {
+public class AccountServiceImpl implements AccountService {
     private final Map<String, UserProfile> sessionIdToProfile;
     private DBService dbService;
 
-    public AccountService() {
+    public AccountServiceImpl() {
         sessionIdToProfile = new HashMap<>();
         dbService = new DBServiceImpl();
         /*try {
@@ -49,7 +50,7 @@ public class AccountService {
                 System.out.print(text + " ");
             }
             return list;
-        } catch(DBException e) {
+        } catch(DBException ignore) {
         }
         return null;
     }
